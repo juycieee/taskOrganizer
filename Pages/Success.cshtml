@@ -1,0 +1,46 @@
+﻿@page
+@model TaskOrganizer.Pages.SuccessModel
+@{
+    ViewData["Title"] = "Registration Success";
+}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+          }
+        }
+      }
+    }
+</script>
+
+<div class="flex min-h-screen items-center justify-center">
+
+    <div class="max-w-sm w-full text-center p-10 bg-dark-card-bg rounded-2xl shadow-2xl border-t-8 border-secondary-accent">
+
+        <div class="mx-auto w-16 h-16 bg-highlight-button rounded-full flex items-center justify-center mb-6 shadow-md">
+            <svg class="w-8 h-8 text-primary-light-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </div>
+
+        <h1 class="text-3xl font-extrabold text-primary-light-text mb-3">✅ Registration Complete</h1>
+
+        <p class="text-gray-300 mb-6 text-lg">
+            **Thank you for registering.** Your account has been successfully created and is now active.
+        </p>
+
+        <a href="/Login" class="inline-block w-full py-3 px-4 bg-highlight-button text-white font-semibold rounded-lg shadow-md
+
+            /* SIMPLIFIED HOVER: Gumamit ng default hover color para di masyadong maingay */
+            hover:bg-secondary-accent hover:text-white
+
+            transition duration-300 focus:outline-none focus:ring-4 focus:ring-secondary-accent focus:ring-opacity-50">
+            Proceed to Login
+        </a>
+
+    </div>
+</div>

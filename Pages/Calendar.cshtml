@@ -1,0 +1,373 @@
+﻿@page
+@model CalendarModel
+@{
+    ViewData["Title"] = "Calendar";
+    Layout = null;
+}
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dcZ6a6u+QHbX5gP0F0ZQ/5DwC1ElGfFY7u1y6m3Oa4k5+HxJ9y8Lzr/6qImQnP+mF8xA6djLM0h+4q45X+3xKw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    body, html {
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .color-primary {
+        background-color: #8B453A;
+    }
+    .color-secondary {
+        background-color: #D0B8A8;
+    }
+    .color-accent {
+        background-color: #DFD3C3;
+    }
+    .color-light {
+        background-color: #F8EDE3;
+    }
+
+    .text-primary {
+        color: #8B453A;
+    }
+    .text-secondary {
+        color: #D0B8A8;
+    }
+
+    .text-dark {
+        color: #222222;
+    }
+
+    .sidebar-bg {
+        background-color: #8B453A;
+    }
+    .main-bg {
+        background-color: #F8EDE3;
+    }
+    .card-bg {
+        background-color: white;
+    }
+
+    .link-text {
+        font-size: 1.05rem;
+        font-weight: 500;
+    }
+
+    .active-link {
+        background-color: #D0B8A8; 
+        color: #3A0519; 
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-weight: 700;
+    }
+
+    .hover-link:hover {
+        background-color: #D0B8A8;
+        opacity: 0.9;
+        color: #3A0519;
+    }
+
+    .user-btn {
+        background-color: #D0B8A8; 
+        color: #8B453A; 
+        font-weight: bold;
+        border: 1px solid #DFD3C3;
+    }
+
+        .user-btn:hover {
+            background-color: #8B453A;
+            color: white;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #8B453A; 
+        border-radius: 20px;
+    }
+
+    .border-primary-accent {
+        border-color: #8B453A;
+    }
+
+    .text-primary-accent {
+        color: #8B453A;
+    }
+
+    .calendar-cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px; 
+        font-weight: 500;
+        transition: background-color 0.15s;
+    }
+
+    .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+</style>
+
+<div class="flex h-screen overflow-hidden">
+
+    <div class="sidebar-bg w-64 text-white p-4 flex flex-col flex-shrink-0">
+        <div class="mb-8 p-2">
+            <h1 class="text-2xl font-bold">📋 TaskBoard</h1>
+            <p class="text-base opacity-80">Employee Panel</p>
+        </div>
+
+        <nav class="space-y-2 flex-grow">
+            <a href="/Calendar" class="flex items-center space-x-3 px-4 py-3 rounded-xl hover-link transition duration-150 text-white/90 hover:text-dark">
+                <i class="fas fa-chart-line w-5"></i>
+                <span class="link-text">Dashboard</span>
+            </a>
+
+            <a href="/MyTasks" class="flex items-center space-x-3 px-4 py-3 rounded-xl hover-link transition duration-150 text-white/90 hover:text-dark">
+                <i class="fas fa-tasks w-5"></i>
+                <span class="link-text">My Tasks</span>
+            </a>
+
+            <a href="/Calendar" class="flex items-center space-x-3 px-4 py-3 rounded-xl active-link">
+                <i class="fas fa-calendar-alt w-5"></i>
+                <span class="link-text">Calendar</span>
+            </a>
+
+            <a href="/Reports" class="flex items-center space-x-3 px-4 py-3 rounded-xl hover-link transition duration-150 mb-4 text-white/90 hover:text-dark">
+                <i class="fas fa-chart-bar w-5"></i>
+                <span class="link-text">Reports</span>
+            </a>
+        </nav>
+
+        <div class="mt-auto">
+            <a href="#" onclick="showLogoutModal(event)" class="flex items-center space-x-3 px-4 py-3 rounded-xl hover-link transition duration-150 text-white/70 hover:bg-white/30 hover:text-dark">
+                <i class="fas fa-sign-out-alt w-5"></i>
+                <span class="link-text font-semibold">Logout</span>
+            </a>
+        </div>
+    </div>
+    <div class="flex-1 main-bg p-8 overflow-y-auto custom-scrollbar">
+
+        <div class="flex justify-between items-center mb-8 flex-shrink-0">
+            <div>
+                <h1 class="text-4xl font-bold text-gray-800">Task Calendar</h1>
+                <p class="text-lg text-gray-500">@DateTime.Now.ToString("dddd, MMMM dd, yyyy")</p>
+            </div>
+            <button class="user-btn text-lg px-5 py-2 rounded-lg font-semibold shadow-md transition duration-150 flex items-center gap-2">
+                <i class="fas fa-user"></i> User
+            </button>
+        </div>
+
+        <div class="grid grid-cols-4 gap-6 mb-8 flex-shrink-0">
+
+            <div class="card-bg p-6 rounded-xl shadow-lg flex items-center justify-between border-l-4 border-primary-accent">
+                <div>
+                    <p class="text-gray-500 text-lg">Total Tasks</p>
+                    <h2 class="text-3xl font-bold text-gray-800 mt-1">0</h2>
+                    <p class="text-base text-gray-400">All your tasks</p>
+                </div>
+                <div class="text-3xl text-primary-accent opacity-70">
+                    <i class="fas fa-tasks"></i>
+                </div>
+            </div>
+
+            <div class="card-bg p-6 rounded-xl shadow-lg flex items-center justify-between border-l-4 border-green-500">
+                <div>
+                    <p class="text-gray-500 text-lg">Completed</p>
+                    <h2 class="text-3xl font-bold text-gray-800 mt-1">0</h2>
+                    <p class="text-base text-gray-400">Finished tasks</p>
+                </div>
+                <div class="text-3xl text-green-500 opacity-70">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+            </div>
+
+            <div class="card-bg p-6 rounded-xl shadow-lg flex items-center justify-between border-l-4 border-yellow-500">
+                <div>
+                    <p class="text-gray-500 text-lg">Pending</p>
+                    <h2 class="text-3xl font-bold text-gray-800 mt-1">0</h2>
+                    <p class="text-base text-gray-400">In progress</p>
+                </div>
+                <div class="text-3xl text-yellow-500 opacity-70">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+            </div>
+
+            <div class="card-bg p-6 rounded-xl shadow-lg flex items-center justify-between border-l-4 border-red-500">
+                <div>
+                    <p class="text-gray-500 text-lg">High Priority</p>
+                    <h2 class="text-3xl font-bold text-gray-800 mt-1">0</h2>
+                    <p class="text-base text-gray-400">Urgent tasks</p>
+                </div>
+                <div class="text-3xl text-red-500 opacity-70">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 mt-8">
+            <div class="col-span-2 card-bg p-6 rounded-xl shadow-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-semibold text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-calendar-alt text-primary"></i> Calendar View
+                    </h3>
+                    <div class="flex items-center space-x-4">
+                        <button id="prevMonth" class="text-gray-500 hover:text-primary transition duration-150">
+                            <i class="fas fa-chevron-left w-4"></i>
+                        </button>
+                        <span id="currentMonthDisplay" class="text-xl font-bold text-gray-800"></span>
+                        <button id="nextMonth" class="text-gray-500 hover:text-primary transition duration-150">
+                            <i class="fas fa-chevron-right w-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-7 text-center text-sm font-medium text-gray-500 gap-1 pb-2 border-b">
+                    <span class="py-2">Sun</span><span class="py-2">Mon</span><span class="py-2">Tue</span><span class="py-2">Wed</span><span class="py-2">Thu</span><span class="py-2">Fri</span><span class="py-2">Sat</span>
+                </div>
+                <div id="calendarDates" class="grid grid-cols-7 text-center text-gray-700 gap-1 mt-2">
+                </div>
+            </div>
+
+            <div class="card-bg p-6 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-semibold mb-4 border-b pb-2 text-gray-800">
+                    <i class="fas fa-clipboard-check text-primary"></i> Today's Tasks
+                </h3>
+                <div class="text-center text-gray-500 py-10">
+                    <i class="fas fa-info-circle text-gray-300 text-4xl mb-3"></i>
+                    <p class="text-lg">No tasks due today</p>
+                </div>
+                <button class="w-full mt-4 bg-secondary text-dark py-2 rounded-lg font-semibold hover:bg-primary hover:text-white transition duration-150">
+                    View Full Day
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="logoutModal" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center transition-opacity duration-300 ease-out">
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm transform transition-all duration-300 ease-out scale-95">
+
+        <div class="text-center mb-6">
+            <div class="flex justify-center mb-3">
+                <i class="fas fa-exclamation-triangle text-secondary text-4xl"></i>
+            </div>
+            <h4 class="text-xl font-bold text-gray-800 mb-1">Are you sure?</h4>
+            <p class="text-base text-gray-500">You will be redirected to the login page.</p>
+        </div>
+
+        <div class="space-y-3">
+            <a href="/Login" class="block w-full text-center color-primary text-white py-2 rounded-lg font-semibold hover:bg-secondary hover:text-dark transition duration-150">
+                Yes, Log out
+            </a>
+
+            <button onclick="hideLogoutModal()" class="block w-full text-center border-2 border-gray-300 text-gray-700 py-2 rounded-lg font-semibold hover:bg-gray-100 transition duration-150">
+                Cancel
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Get the modal element
+    const modal = document.getElementById('logoutModal');
+
+    // Function to show the modal (for Logout)
+    function showLogoutModal(event) {
+        event.preventDefault();
+        modal.classList.remove('hidden');
+    }
+
+    // Function to hide the modal (for Logout)
+    function hideLogoutModal() {
+        modal.classList.add('hidden');
+    }
+
+    /* --- Calendar JavaScript (Using Earth/Terracotta Colors) --- */
+
+    let currentDay = new Date();
+    let currentMonth = currentDay.getMonth();
+    let currentYear = currentDay.getFullYear();
+
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const datesContainer = document.getElementById('calendarDates');
+    const monthDisplay = document.getElementById('currentMonthDisplay');
+    const today = new Date();
+
+    // Define the colors used in CSS for consistency
+    const PRIMARY_COLOR_BG = '#8B453A'; // Deep Terracotta Brown
+    const SECONDARY_COLOR_BG = '#D0B8A8'; // Muted Taupe/Rose
+
+    // FUNCTION: Renders the calendar view
+    function renderCalendar() {
+        const date = new Date(currentYear, currentMonth, 1);
+        const firstDayIndex = date.getDay();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+        datesContainer.innerHTML = ''; // Clear old dates
+        monthDisplay.textContent = monthNames[currentMonth] + ' ' + currentYear;
+
+        // 1. Render blank cells (for days before the 1st)
+        for (let i = 0; i < firstDayIndex; i++) {
+            const emptyCell = document.createElement('span');
+            emptyCell.classList.add('calendar-cell');
+            datesContainer.appendChild(emptyCell);
+        }
+
+        // 2. Render the dates
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayCell = document.createElement('span');
+            dayCell.classList.add('calendar-cell', 'rounded-xl', 'cursor-pointer', 'hover:bg-gray-200');
+            dayCell.textContent = day;
+
+            // Check if this is the current day
+            const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+
+            if (isToday) {
+                // Style for Today: Primary color BG, white text
+                dayCell.classList.remove('hover:bg-gray-200');
+                dayCell.style.backgroundColor = PRIMARY_COLOR_BG;
+                dayCell.classList.add('text-white', 'font-bold', 'shadow-md');
+            } else {
+                if (currentMonth !== today.getMonth() || currentYear !== today.getFullYear()) {
+                    dayCell.classList.add('text-gray-400');
+                }
+                dayCell.addEventListener('mouseenter', () => {
+                    dayCell.style.backgroundColor = SECONDARY_COLOR_BG;
+                });
+                dayCell.addEventListener('mouseleave', () => {
+                    dayCell.style.backgroundColor = 'transparent';
+                });
+            }
+
+            datesContainer.appendChild(dayCell);
+        }
+    }
+
+    document.getElementById('prevMonth').addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        renderCalendar();
+    });
+
+    document.getElementById('nextMonth').addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        renderCalendar();
+    });
+
+    renderCalendar();
+
+</script>

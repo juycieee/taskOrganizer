@@ -1,0 +1,247 @@
+﻿@page
+@model TaskOrganizer.Pages.Register.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-dcZ6a6u+QHbX5gP0F0ZQ/5DwC1ElGfFY7u1y6m3Oa4k5+HxJ9y8Lzr/6qImQnP+mF8xA6djLM0h+4q45X+3xKw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+        background: #F9F8F6;
+    }
+
+    .register-container {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .register-box {
+        width: 70%;
+        max-width: 950px;
+        min-height: 700px;
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 7px 25px rgba(0,0,0,0.25);
+    }
+
+    .left-panel {
+        width: 45%;
+        /* Background: Deep Rose */
+        background: #704264;
+        color: white;
+        padding: 60px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        .left-panel h2 {
+            text-align: left;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .left-panel p {
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+
+        .left-panel .social-icons i {
+            font-size: 30px;
+            margin-right: 20px;
+            color: #DBAFA0;
+            transition: 0.3s;
+        }
+
+    .right-panel {
+        width: 55%;
+        background: #DBAFA0;
+        padding: 80px 40px;
+    }
+
+        .right-panel h3 {
+            font-size: 35px;
+            text-align: center;
+            margin-bottom: 10px;
+            color: black;
+        }
+
+        .right-panel small {
+            text-align: center;
+            opacity: 0.7;
+            display: block;
+            margin-bottom: 25px;
+        }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #49243E;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+            .form-group input:focus {
+                border-color: #BB8493;
+                outline: none;
+            }
+
+    .submit-btn {
+        width: 100%;
+        background: #49243E;
+        border: none;
+        color: white;
+        padding: 10px;
+        font-size: 19px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+
+        .submit-btn:hover {
+            background: #704264;
+        }
+
+    .text-red {
+        color: red;
+        font-size: 14px;
+    }
+
+    .role-label {
+        color: #49243E; 
+        font-weight: 600; 
+        font-size: 16px;
+    }
+
+    .role-radio {
+        accent-color: #49243E;
+    }
+
+    .login-link-container {
+        text-align: center;
+        margin-top: 15px; 
+        font-size: 15px;
+    }
+
+        .login-link-container a {
+            color: #49243E; 
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+            .login-link-container a:hover {
+                color: #704264; 
+                text-decoration: underline;
+            }
+</style>
+
+<div class="register-container">
+    <div class="register-box">
+
+        <div class="left-panel">
+            <h2>Welcome to Employee Task Organizer</h2>
+            <p>Create account for better way to manage<br />task. Let's keep your goals in line and <br />your days less hectic</p>
+            <div class="social-icons">
+                <i class="fas fa-clipboard-list" title="Tasks"></i>
+                <i class="fas fa-calendar-alt" title="Schedule"></i>
+                <i class="fas fa-check-circle" title="Accomplishments"></i>
+                <i class="fas fa-clock" title="Time Management"></i>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <h3>REGISTER HERE</h3>
+            <small>Organize today. Accomplish more tomorrow.</small>
+            <br />
+
+            <div asp-validation-summary="All" class="text-red mb-3"></div>
+
+            <form method="post">
+                <div class="form-group">
+                    <input asp-for="Input.Name" placeholder="Full Name" />
+                    <span asp-validation-for="Input.Name" class="text-red"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Input.Username" placeholder="Username" />
+                    <span asp-validation-for="Input.Username" class="text-red"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Input.Email" placeholder="Email" />
+                    <span asp-validation-for="Input.Email" class="text-red"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Input.Password" type="password" placeholder="Password" />
+                    <span asp-validation-for="Input.Password" class="text-red"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Input.ConfirmPassword" type="password" placeholder="Confirm Password" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-red"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="role-label block mb-2">Register as:</label>
+                    <div class="flex space-x-8 justify-center">
+
+                        <label class="flex items-center cursor-pointer">
+                            <input type="radio"
+                                   asp-for="Input.Role"
+                                   value="Employee"
+                                   checked="checked"
+                                   class="role-radio h-4 w-4" />
+                            <span class="ml-2 role-label">Employee</span>
+                        </label>
+
+                        <label class="flex items-center cursor-pointer">
+                            <input type="radio"
+                                   asp-for="Input.Role"
+                                   value="Admin"
+                                   class="role-radio h-4 w-4" />
+                            <span class="ml-2 role-label">Admin</span>
+                        </label>
+                    </div>
+                    <span asp-validation-for="Input.Role" class="text-red"></span>
+                </div>
+
+                <button type="submit" class="submit-btn">Create Account</button>
+
+                <div class="login-link-container">
+                    Already have an account? <a asp-page="/Login">Login here</a>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

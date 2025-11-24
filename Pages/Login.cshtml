@@ -1,0 +1,226 @@
+﻿@page
+@model TaskOrganizer.Pages.Login.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" />
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+        background: #F9F8F6;
+    }
+
+    .login-container {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .login-box {
+        width: 70%;
+        max-width: 950px;
+        height: 600px;
+        display: flex;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 7px 25px rgba(0,0,0,0.25);
+    }
+
+    .left-panel {
+        text-align: center;
+        width: 45%;
+        background: #704264;
+        color: white;
+        padding: 60px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .social-icons i {
+        margin-right: 15px;
+        font-size: 22px;
+        cursor: pointer;
+        /* Ginamit ang #DBAFA0 for contrast */
+        color: #DBAFA0;
+        transition: 0.3s;
+    }
+
+        .social-icons i:hover {
+            transform: translateY(-3px);
+            color: #BB8493;
+        }
+
+    .right-panel {
+        text-align: center;
+        width: 55%;
+        background: #DBAFA0;
+        padding: 50px 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        .right-panel h2 {
+            text-align: center;
+            font-size: 33px;
+            margin-bottom: 10px;
+            color: black;
+        }
+
+        .right-panel small {
+            opacity: 0.7;
+            display: block;
+            margin-bottom: 25px;
+        }
+
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #49243E;
+            border-radius: 6px;
+            font-size: 17px;
+            transition: 0.2s;
+        }
+
+            .form-group input:focus {
+                border-color: #BB8493;
+                outline: none;
+            }
+
+    .login-btn {
+        width: 100%;
+        background: #49243E;
+        border: none;
+        color: white;
+        padding: 13px;
+        font-size: 19px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+
+        .login-btn:hover {
+            background: #704264;
+        }
+
+    .text-red {
+        color: red;
+        font-size: 14px;
+    }
+
+    .create-link {
+        margin-top: 15px;
+        text-align: center;
+        font-size: 16px;
+    }
+
+        .create-link a {
+            color: #704264;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+            .create-link a:hover {
+                text-decoration: underline;
+            }
+
+    .task-image {
+        width: 380px;
+        height: auto;
+    }
+
+    .role-label {
+        color: #49243E;
+        font-weight: 600; 
+        font-size: 16px;
+    }
+
+    .role-radio {
+        accent-color: #49243E; 
+    }
+
+</style>
+
+<div class="login-container">
+    <div class="login-box">
+
+        <div class="left-panel">
+            <div class="social-icons" style="display: flex; justify-content: center; margin-top: 20px;">
+                <img src="/images/4.png" alt="Task Icon" class="task-image">
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <h2>Welcome Back <br /> to Task Organizer!</h2>
+            <p>Log in to manage your tasks and stay productive.</p>
+
+            <div asp-validation-summary="All" class="text-red mb-3"></div>
+
+            <form method="post">
+                <div class="form-group">
+                    <input asp-for="Input.Email" placeholder="Email" />
+                    <span asp-validation-for="Input.Email" class="text-red"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="Input.Password" type="password" placeholder="Password" />
+                    <span asp-validation-for="Input.Password" class="text-red"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="role-label block mb-2 text-left">Log in as:</label>
+                    <div class="flex space-x-8 justify-center">
+
+                        <label class="flex items-center cursor-pointer">
+                            <input type="radio"
+                                   asp-for="Input.Role"
+                                   value="Employee"
+                                   checked="checked"
+                                   class="role-radio h-4 w-4" />
+                            <span class="ml-2 role-label">Employee</span>
+                        </label>
+
+                        <label class="flex items-center cursor-pointer">
+                            <input type="radio"
+                                   asp-for="Input.Role"
+                                   value="Admin"
+                                   class="role-radio h-4 w-4" />
+                            <span class="ml-2 role-label">Admin</span>
+                        </label>
+                    </div>
+                    <span asp-validation-for="Input.Role" class="text-red"></span>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+
+            <div class="create-link">
+                Don't have an account? <a href="/Register">Create account</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

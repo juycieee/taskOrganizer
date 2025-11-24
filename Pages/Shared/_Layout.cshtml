@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TaskOrganizer.styles.css" asp-append-version="true" />
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent overall scrolling, ang content area lang dapat ang mag-scroll */
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+
+           <div class="container">
+                @RenderBody()
+                <main role="main" class="h-full">
+                    @RenderBody()
+                </main>
+
+                <footer>
+                 
+
+                    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+                    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+                    <script src="~/js/site.js" asp-append-version="true"></script>
+
+                    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
